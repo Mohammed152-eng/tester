@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#010409">
+
+    <!-- Webapp shortcut ios -->
+    <link rel="apple-touch-startup-image" href="./media/images/icon/icon-x512.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MCQ Mate">
+    <link rel="apple-touch-icon" href="./media/images/icon/icon-x16.png" sizes="16x16">
+    <link rel="apple-touch-icon" href="./media/images/icon/icon-x32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="./media/images/icon/icon-x72.png" sizes="72x72">
+    <link rel="apple-touch-icon" href="./media/images/icon/icon-x96.png" sizes="96x96">
+    <link rel="apple-touch-icon" href="./media/images/icon/icon-x128.png" sizes="128x128">
+    <link rel="apple-touch-icon" href="./media/images/icon/icon-x144.png" sizes="144x144">
+    <link rel="apple-touch-icon" href="./media/images/icon/icon-x152.png" sizes="152x152">
+    <link rel="apple-touch-icon" href="./media/images/icon/icon-x180.png" sizes="180x180">
+    <link rel="apple-touch-icon" href="./media/images/icon/icon-x192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="./media/images/icon/icon-x384.png" sizes="384x384">
+    <link rel="apple-touch-icon" href="./media/images/icon/icon-x512.png" sizes="512x512">
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="./media/images/icon/favicon-x64.ico" type="image/x-icon">
+
+    <!-- Linking my stuff -->
+    <link rel="stylesheet" href="./src/css/style.css" media="all">
+    <script type="module" src="./src/js/script.js"></script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "MCQ Mate",
+          "url": "https://zieddev.github.io/mcq-mate",
+          "description": "MCQ Mate is a multiple-choice question (MCQ) checker for Cambridge IGCSE and A-Level subjects.",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://zieddev.github.io/mcq-mate/{search term}"
+          }
+        }
+      </script>
+    <meta name="description"
+        content="MCQ Mate is an mcq checker for Cambridge IGCSE and A-Level subjects that have an mcq (Multiple-Choice-Questions) paper.">
+    <meta property="og:title" content="MCQ Mate" />
+    <meta property="og:description"
+        content="MCQ Mate is an mcq checker for Cambridge IGCSE and A-Level subjects that have an mcq (Multiple-Choice-Questions) paper." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://zieddev.github.io/mcq-mate/media/icon/icon-x512.png" />
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1800">
+    <meta property="og:image:height" content="550">
+    <meta property="og:url" content="https://zieddev.github.io/mcq-mate" />
+    <meta property="og:site_name" content="MCQ Mate" />
+    <title>MCQ Mate</title>
+
+    <!-- loader styles -->
+    <style>
+        .splash {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: black;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .splash-image {
+            width: 20rem;
+            height: 20rem;
+        }
+
+        .loading-svg {
+            position: absolute;
+            top: 60%;
+            width: 20rem;
+            height: 10rem;
+        }
+
+        @keyframes splash {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(1.2);
+            }
+        }
+
+        @keyframes fade-out {
+            0% {
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            100% {
+                opacity: 0;
+                pointer-events: none;
+            }
+        }
+    </style>
+    <style>
+        body::before { 
+            display: none !important; 
+        }
+        html, body { 
+            background-color: transparent !important; 
+        }
+        .main-section {
+            background-color: transparent !important;
+        }
+        header, .sidebar, .top-bar, .side-panel {
+            background-color: rgba(1, 4, 9, 0.6) !important;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+
+<body>
+    <video src="./bg_video.mp4" autoplay loop muted playsinline style="position:fixed; top:0; left:0; width:100vw; height:100vh; object-fit:cover; z-index:-2; pointer-events:none;"></video>
+    <div class="splash">
+        <img class="splash-image" src="./media/icon/icon-x512.png" alt="MCQ Mate Logo">
+        <svg class="loading-svg" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+            <circle cx="18" cy="12" r="0" fill="#ffffff">
+                <animate attributeName="r" begin=".67" calcMode="spline" dur="1.5s"
+                    keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8" repeatCount="indefinite"
+                    values="0;2;0;0" />
+            </circle>
+            <circle cx="12" cy="12" r="0" fill="#ffffff">
+                <animate attributeName="r" begin=".33" calcMode="spline" dur="1.5s"
+                    keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8" repeatCount="indefinite"
+                    values="0;2;0;0" />
+            </circle>
+            <circle cx="6" cy="12" r="0" fill="#ffffff">
+                <animate attributeName="r" begin="0" calcMode="spline" dur="1.5s"
+                    keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8" repeatCount="indefinite"
+                    values="0;2;0;0" />
+            </circle>
+        </svg>
+    </div>
+
+    <script>
+        const splash = document.querySelector('.splash')
+        const splashImage = document.querySelector('.splash-image')
+        const loadingSvg = document.querySelector('.loading-svg')
+        document.addEventListener('DOMContentLoaded', () => {
+            let timeoutSplash = setTimeout(() => {
+                loadingSvg.parentElement.removeChild(loadingSvg)
+                splashImage.style.animation = 'splash 1000ms ease forwards'
+                splash.style.animation = 'fade-out 1000ms ease forwards'
+                let timeout = setTimeout(() => {
+                    splash.parentElement.removeChild(splash)
+                    clearTimeout(timeout)
+                }, 1000);
+            }, 1500);
+        })
+    </script>
+    <header>
+        <div class="title" id="title">
+            <a href="./index.html" style="text-decoration: none; color: inherit;">
+                <h1>MCQ Mate</h1>
+            </a>
+        </div>
+        <div class="content" id="content">
+            <div class="hamburger-menu-container" id="hamburger-menu-container">
+                <svg class="hamburger-menu-button" id="hamburger-menu-button-opened" xmlns="http://www.w3.org/2000/svg"
+                    width="32" height="32" viewBox="0 0 256 256">
+                    <path fill="#ffffff"
+                        d="M228 128a12 12 0 0 1-12 12H40a12 12 0 0 1 0-24h176a12 12 0 0 1 12 12M40 76h176a12 12 0 0 0 0-24H40a12 12 0 0 0 0 24m176 104H40a12 12 0 0 0 0 24h176a12 12 0 0 0 0-24" />
+                </svg>
+                <svg class="hamburger-menu-button hidden" id="hamburger-menu-button-closed"
+                    xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256">
+                    <path fill="#ffffff"
+                        d="M208.49 191.51a12 12 0 0 1-17 17L128 145l-63.51 63.49a12 12 0 0 1-17-17L111 128L47.51 64.49a12 12 0 0 1 17-17L128 111l63.51-63.52a12 12 0 0 1 17 17L145 128Z" />
+                </svg>
+            </div>
+            <div class="header-content" id="header-content">
+                <button class="Home" id="Home" onclick="window.location.href='/'">
+                    <strong>Home</strong>
+                </button>
+                <button class="data" id="data">
+                    <strong>Data</strong>
+                </button>
+                <button class="Guides" id="Guides"
+                    onclick="window.open(`/guides.html`, '_blank')">
+                    <strong>Guides</strong>
+                </button>
+                <button class=" credits" id="credits">
+                    <strong>Credits</strong>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <section class="top-bar" id="top-bar">
+        <button id="backwards-arrow" title="Backwards"> <!--use active class if button is active-->
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256">
+                <path fill="currentColor"
+                    d="M228 128a12 12 0 0 1-12 12H69l51.52 51.51a12 12 0 0 1-17 17l-72-72a12 12 0 0 1 0-17l72-72a12 12 0 0 1 17 17L69 116h147a12 12 0 0 1 12 12" />
+            </svg>
+        </button>
+        <button id="forwards-arrow" title="Forwards">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256">
+                <path fill="currentColor"
+                    d="m224.49 136.49l-72 72a12 12 0 0 1-17-17L187 140H40a12 12 0 0 1 0-24h147l-51.49-51.52a12 12 0 0 1 17-17l72 72a12 12 0 0 1-.02 17.01" />
+            </svg>
+        </button>
+        <div class="bar">
+            <div class="path-icon-container" id="path-icon-container">
+                <div class="path-icon" id="path-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                        viewBox="0 0 256 256">
+                        <path fill="currentColor"
+                            d="m222.14 105.85l-80-80a20 20 0 0 0-28.28 0l-80 80A19.86 19.86 0 0 0 28 120v96a12 12 0 0 0 12 12h64a12 12 0 0 0 12-12v-52h24v52a12 12 0 0 0 12 12h64a12 12 0 0 0 12-12v-96a19.86 19.86 0 0 0-5.86-14.15M204 204h-40v-52a12 12 0 0 0-12-12h-48a12 12 0 0 0-12 12v52H52v-82.35l76-76l76 76Z" />
+                    </svg></div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256">
+                    <path fill="currentColor"
+                        d="m184.49 136.49l-80 80a12 12 0 0 1-17-17L159 128L87.51 56.49a12 12 0 1 1 17-17l80 80a12 12 0 0 1-.02 17" />
+                </svg>
+            </div>
+            <div class="path" id="path">
+            </div>
+        </div>
+    </section>
+    <div class="main-section">
+        <aside class="side-panel" id="side-panel">
+            <div>
+                <div class="side-group-title" id="side-group-title-ol">OL Subjects</div>
+                <div class="side-group" id="side-group-ol"></div>
+            </div>
+            <div>
+                <div class="side-group-title" id="side-group-title-al">AL Subjects</div>
+                <div class="side-group" id="side-group-al"></div>
+            </div>
+            <div>
+                <div class="side-group-title" id="side-group-title-cr">Core Subjects</div>
+                <div class="side-group" id="side-group-cr"></div>
+            </div>
+
+            <div class="credits">
+                <div>© <a href="http://github.com/ZiedDev" target="_blank">Zied</a> ● <a
+                        href="https://github.com/omar-elsherbiny" target="_blank">Sherbo</a></div>
+            </div>
+        </aside>
+
+        <div class="main-container">
+            <main class="main" id="main"></main>
+        </div>
+    </div>
+</body>
+
+</html>
