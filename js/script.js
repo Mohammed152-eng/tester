@@ -9,20 +9,19 @@ import {
   generateRandomImages,
 } from "./generateElements.js";
 import createModal from "./modal.js";
-
-import { globalPDFSystem, pdfjsLib } from "./pdf-system.js";
+import WebViewer from "../../node_modules/@pdftron/pdfjs-express";
 
 import registerServiceWorker from "./serviceWorkerRegistration.js";
 registerServiceWorker();
 
 const hamburgerMenuContainer = document.getElementById(
-  "hamburger-menu-container",
+  "hamburger-menu-container"
 );
 const hamburgerMenuButtonOpen = document.getElementById(
-  "hamburger-menu-button-opened",
+  "hamburger-menu-button-opened"
 );
 const hamburgerMenuButtonClose = document.getElementById(
-  "hamburger-menu-button-closed",
+  "hamburger-menu-button-closed"
 );
 const headerContent = document.getElementById("header-content");
 let hamburgerOpened = false;
@@ -59,7 +58,7 @@ document.addEventListener("click", (e) => {
       hamburgerMenuButtonClose.classList.add("hidden");
       headerContent.style.animation = "closeHeaderContent 100ms";
       hamburgerMenuContainer.classList.remove(
-        "hamburger-menu-container-opened",
+        "hamburger-menu-container-opened"
       );
       headerContent.classList.remove("header-content-opened");
       hamburgerOpened = false;
@@ -102,20 +101,16 @@ dataButton.addEventListener("click", () => {
               try {
                 importJson(importedFile);
                 document.body.appendChild(
-                  createModal("Done", ["Date Imported"], ["  Ok  ", () => {}]),
+                  createModal("Done", ["Date Imported"], ["  Ok  ", () => { }])
                 );
               } catch (error) {
                 console.log(error);
                 document.body.appendChild(
-                  createModal(
-                    "Error",
-                    ["Invalid Import"],
-                    ["  Ok  ", () => {}],
-                  ),
+                  createModal("Error", ["Invalid Import"], ["  Ok  ", () => { }])
                 );
               }
             },
-          ],
+          ]
         );
       },
     ],
@@ -130,7 +125,7 @@ dataButton.addEventListener("click", () => {
         a.href = window.URL.createObjectURL(blob);
         a.click(); // Trigger download
       },
-    ],
+    ]
   );
 });
 
@@ -140,7 +135,7 @@ function getExportJson() {
 
   Object.keys(dict).forEach((key) => {
     if (JSON.stringify(key.match(regexPattern)) != JSON.stringify([`${key}`])) {
-      delete dict[key];
+      delete dict[key]
     }
   });
 
@@ -152,15 +147,12 @@ function importJson(content) {
     const parsed = JSON.parse(content);
     const regexPattern = new RegExp(/[a-z]{3}[oac][0-9]{2}[wsm][1-3][s]?/gim);
 
-    console.log("parsed:", parsed);
-    console.log("parsed:", regexPattern);
+    console.log('parsed:', parsed)
+    console.log('parsed:', regexPattern)
 
     Object.keys(parsed).forEach((key) => {
-      console.log(
-        JSON.stringify(key.match(regexPattern)),
-        JSON.stringify([`${key}`]),
-      );
-      console.log(key.match(regexPattern));
+      console.log(JSON.stringify(key.match(regexPattern)), JSON.stringify([`${key}`]))
+      console.log(key.match(regexPattern))
       if (
         JSON.stringify(key.match(regexPattern)) != JSON.stringify([`${key}`])
       ) {
@@ -182,6 +174,8 @@ import JSConfetti from "js-confetti";
 const jsConfetti = new JSConfetti();
 
 // GLOBAL VARIABLES
+let globalPdfViewer;
+let globalPeriodicTablePdfViewer;
 let globalTimer;
 let timerInterval;
 let userAnswers;
@@ -213,7 +207,7 @@ creditsButton.addEventListener("click", () => {
       `Website created by <br> <a href="https://github.com/ZiedDev" target="_blank">Zied</a> & <a href="https://github.com/omar-elsherbiny" target="_blank">Sherbo</a>`,
       `Special Thanks to: <br> <a href="https://gceguide.net/" target="_blank">GCE Guide</a> <br> <a href="https://papacambridge.com/" target="_blank">Papa Cambridge</a>`,
       `Repository: <br> <a href="https://github.com/ZiedDev/mcq-mate" target="_blank">MCQ Mate</a>`,
-    ], // content
+    ] // content
   );
 });
 
@@ -222,7 +216,7 @@ const moveBackwardsArrow = document.getElementById("backwards-arrow");
 const moveForwardsArrow = document.getElementById("forwards-arrow");
 
 let backward_stack = [];
-let current_path = ""; // important to put in datatype and format of root path
+let current_path = ''; // important to put in datatype and format of root path
 let forward_stack = [];
 
 function isBackwardAvailable() {
@@ -312,7 +306,16 @@ function updatePathElement() {
 
   timeout = setTimeout(() => {
     main.innerHTML = "";
-    globalPDFSystem.destroy();
+    if (globalPdfViewer != undefined) {
+      globalPdfViewer.parentNode.removeChild(globalPdfViewer);
+      globalPdfViewer = undefined;
+    }
+    if (globalPeriodicTablePdfViewer != undefined) {
+      globalPeriodicTablePdfViewer.parentNode.removeChild(
+        globalPeriodicTablePdfViewer
+      );
+      globalPeriodicTablePdfViewer = undefined;
+    }
     if (globalTimer != undefined) {
       globalTimer.parentNode.removeChild(globalTimer);
       globalTimer = undefined;
@@ -324,7 +327,7 @@ function updatePathElement() {
     if (pathText.length == 5) {
       path.innerHTML = "";
       path.appendChild(
-        createPathElement(`${pathText[0].toUpperCase()} ${pathText[1]}`, true),
+        createPathElement(`${pathText[0].toUpperCase()} ${pathText[1]}`, true)
       );
       path.appendChild(createPathElement(pathText[2]));
       path.appendChild(
@@ -333,11 +336,11 @@ function updatePathElement() {
             ? "Feb / Mar"
             : pathText[3] == "s"
               ? "May / Jun"
-              : "Oct / Nov",
-        ),
+              : "Oct / Nov"
+        )
       );
       path.appendChild(
-        createPathElement(`Variant ${Number(pathText[4]) + 1}`, false, true),
+        createPathElement(`Variant ${Number(pathText[4]) + 1}`, false, true)
       );
       main.appendChild(
         createBubbleSheetMenu(
@@ -345,13 +348,13 @@ function updatePathElement() {
           pathText[1],
           pathText[2],
           pathText[3],
-          pathText[4],
-        ),
+          pathText[4]
+        )
       );
     } else if (pathText.length == 4) {
       path.innerHTML = "";
       path.appendChild(
-        createPathElement(`${pathText[0].toUpperCase()} ${pathText[1]}`, true),
+        createPathElement(`${pathText[0].toUpperCase()} ${pathText[1]}`, true)
       );
       path.appendChild(createPathElement(pathText[2]));
       path.appendChild(
@@ -362,16 +365,16 @@ function updatePathElement() {
               ? "May / Jun"
               : "Oct / Nov",
           false,
-          true,
-        ),
+          true
+        )
       );
       main.appendChild(
-        CreateSubMenu(pathText[0], pathText[1], pathText[2], pathText[3]),
+        CreateSubMenu(pathText[0], pathText[1], pathText[2], pathText[3])
       );
     } else if (pathText.length == 3) {
       path.innerHTML = "";
       path.appendChild(
-        createPathElement(`${pathText[0].toUpperCase()} ${pathText[1]}`, true),
+        createPathElement(`${pathText[0].toUpperCase()} ${pathText[1]}`, true)
       );
       path.appendChild(createPathElement(pathText[2], false, true));
       main.appendChild(CreateSubMenu(pathText[0], pathText[1], pathText[2]));
@@ -381,8 +384,8 @@ function updatePathElement() {
         createPathElement(
           `${pathText[0].toUpperCase()} ${pathText[1]}`,
           true,
-          true,
-        ),
+          true
+        )
       );
       main.appendChild(CreateSubMenu(pathText[0], pathText[1]));
     } else if (pathText.length <= 1) {
@@ -434,7 +437,7 @@ function createPathElement(title, first, last) {
   if (!first) {
     const arrowElement = document.createElementNS(
       "http://www.w3.org/2000/svg",
-      "svg",
+      "svg"
     );
     arrowElement.setAttribute("width", "32");
     arrowElement.setAttribute("height", "32");
@@ -505,7 +508,7 @@ Object.keys(olSubjectsMS).forEach((subject) => {
     subject: subject,
     generateContainerCallback: () => {
       const sideSubjectYears = document.getElementById(
-        `side-ol-${subject}-years`,
+        `side-ol-${subject}-years`
       );
       Object.keys(olSubjectsMS[subject]).forEach((year) => {
         let opened =
@@ -522,7 +525,7 @@ Object.keys(olSubjectsMS).forEach((subject) => {
               openedSideBarArray.push(`ol-${subject}-${year}`);
             }
             const sideYearSessions = document.getElementById(
-              `side-ol-${subject}-${year}-sessions`,
+              `side-ol-${subject}-${year}-sessions`
             );
             Object.keys(olSubjectsMS[subject][year]).forEach((session) => {
               if (
@@ -531,7 +534,7 @@ Object.keys(olSubjectsMS).forEach((subject) => {
               ) {
                 let opened =
                   openedSideBarArray.indexOf(
-                    `ol-${subject}-${year}-${session}`,
+                    `ol-${subject}-${year}-${session}`
                   ) == -1
                     ? false
                     : true;
@@ -544,11 +547,11 @@ Object.keys(olSubjectsMS).forEach((subject) => {
                   generateContainerCallback: () => {
                     if (!opened) {
                       openedSideBarArray.push(
-                        `ol-${subject}-${year}-${session}`,
+                        `ol-${subject}-${year}-${session}`
                       );
                     }
                     const sideSessionVariants = document.getElementById(
-                      `side-ol-${subject}-${year}-${session}-variants`,
+                      `side-ol-${subject}-${year}-${session}-variants`
                     );
                     Object.keys(olSubjectsMS[subject][year][session]).forEach(
                       (variant) => {
@@ -565,36 +568,36 @@ Object.keys(olSubjectsMS).forEach((subject) => {
                           variantElement.addEventListener("click", (e) => {
                             if (
                               e.target.id ==
-                                `side-ol-button-${subject}-${year}-${session}-${variant}` ||
+                              `side-ol-button-${subject}-${year}-${session}-${variant}` ||
                               e.target.id ==
-                                `side-ol-${subject}-${year}-${session}-${variant}-title`
+                              `side-ol-${subject}-${year}-${session}-${variant}-title`
                             ) {
                               changePath(
-                                `ol>${subject}>${year}>${session}>${variant}`,
+                                `ol>${subject}>${year}>${session}>${variant}`
                               );
                             }
                           });
                           sideSessionVariants.appendChild(variantElement);
                         }
-                      },
+                      }
                     );
                   },
                   removeContainerCallback: () => {
                     let index = openedSideBarArray.indexOf(
-                      `ol-${subject}-${year}-${session}`,
+                      `ol-${subject}-${year}-${session}`
                     );
                     if (index != -1) {
                       openedSideBarArray.splice(index, 1);
                     }
                     const sideSessionVariants = document.getElementById(
-                      `side-ol-${subject}-${year}-${session}-variants`,
+                      `side-ol-${subject}-${year}-${session}-variants`
                     );
                     const variantsLength =
                       sideSessionVariants.childNodes.length;
                     for (let i = 0; i < variantsLength; i++) {
                       let timeout = setTimeout(() => {
                         sideSessionVariants.removeChild(
-                          sideSessionVariants.childNodes[0],
+                          sideSessionVariants.childNodes[0]
                         );
                         clearTimeout(timeout);
                       }, 100);
@@ -604,7 +607,7 @@ Object.keys(olSubjectsMS).forEach((subject) => {
                 sessionElement.addEventListener("click", (e) => {
                   if (
                     e.target.id ==
-                      `side-ol-button-${subject}-${year}-${session}` ||
+                    `side-ol-button-${subject}-${year}-${session}` ||
                     e.target.id == `side-ol-${subject}-${year}-${session}-title`
                   ) {
                     changePath(`ol>${subject}>${year}>${session}`);
@@ -620,7 +623,7 @@ Object.keys(olSubjectsMS).forEach((subject) => {
               openedSideBarArray.splice(index, 1);
             }
             const sideYearSessions = document.getElementById(
-              `side-ol-${subject}-${year}-sessions`,
+              `side-ol-${subject}-${year}-sessions`
             );
             const sessionsLength = sideYearSessions.childNodes.length;
             for (let i = 0; i < sessionsLength; i++) {
@@ -645,7 +648,7 @@ Object.keys(olSubjectsMS).forEach((subject) => {
     },
     removeContainerCallback: () => {
       const sideSubjectYears = document.getElementById(
-        `side-ol-${subject}-years`,
+        `side-ol-${subject}-years`
       );
       const yearLength = sideSubjectYears.childNodes.length;
       for (let i = 0; i < yearLength; i++) {
@@ -676,7 +679,7 @@ Object.keys(alSubjectsMS).forEach((subject) => {
     subject: subject,
     generateContainerCallback: () => {
       const sideSubjectYears = document.getElementById(
-        `side-al-${subject}-years`,
+        `side-al-${subject}-years`
       );
       Object.keys(alSubjectsMS[subject]).forEach((year) => {
         let opened =
@@ -693,7 +696,7 @@ Object.keys(alSubjectsMS).forEach((subject) => {
               openedSideBarArray.push(`al-${subject}-${year}`);
             }
             const sideYearSessions = document.getElementById(
-              `side-al-${subject}-${year}-sessions`,
+              `side-al-${subject}-${year}-sessions`
             );
             Object.keys(alSubjectsMS[subject][year]).forEach((session) => {
               if (
@@ -702,7 +705,7 @@ Object.keys(alSubjectsMS).forEach((subject) => {
               ) {
                 let opened =
                   openedSideBarArray.indexOf(
-                    `al-${subject}-${year}-${session}`,
+                    `al-${subject}-${year}-${session}`
                   ) == -1
                     ? false
                     : true;
@@ -715,11 +718,11 @@ Object.keys(alSubjectsMS).forEach((subject) => {
                   generateContainerCallback: () => {
                     if (!opened) {
                       openedSideBarArray.push(
-                        `al-${subject}-${year}-${session}`,
+                        `al-${subject}-${year}-${session}`
                       );
                     }
                     const sideSessionVariants = document.getElementById(
-                      `side-al-${subject}-${year}-${session}-variants`,
+                      `side-al-${subject}-${year}-${session}-variants`
                     );
                     Object.keys(alSubjectsMS[subject][year][session]).forEach(
                       (variant) => {
@@ -736,36 +739,36 @@ Object.keys(alSubjectsMS).forEach((subject) => {
                           variantElement.addEventListener("click", (e) => {
                             if (
                               e.target.id ==
-                                `side-al-button-${subject}-${year}-${session}-${variant}` ||
+                              `side-al-button-${subject}-${year}-${session}-${variant}` ||
                               e.target.id ==
-                                `side-al-${subject}-${year}-${session}-${variant}-title`
+                              `side-al-${subject}-${year}-${session}-${variant}-title`
                             ) {
                               changePath(
-                                `al>${subject}>${year}>${session}>${variant}`,
+                                `al>${subject}>${year}>${session}>${variant}`
                               );
                             }
                           });
                           sideSessionVariants.appendChild(variantElement);
                         }
-                      },
+                      }
                     );
                   },
                   removeContainerCallback: () => {
                     let index = openedSideBarArray.indexOf(
-                      `al-${subject}-${year}-${session}`,
+                      `al-${subject}-${year}-${session}`
                     );
                     if (index != -1) {
                       openedSideBarArray.splice(index, 1);
                     }
                     const sideSessionVariants = document.getElementById(
-                      `side-al-${subject}-${year}-${session}-variants`,
+                      `side-al-${subject}-${year}-${session}-variants`
                     );
                     const variantsLength =
                       sideSessionVariants.childNodes.length;
                     for (let i = 0; i < variantsLength; i++) {
                       let timeout = setTimeout(() => {
                         sideSessionVariants.removeChild(
-                          sideSessionVariants.childNodes[0],
+                          sideSessionVariants.childNodes[0]
                         );
                         clearTimeout(timeout);
                       }, 100);
@@ -775,7 +778,7 @@ Object.keys(alSubjectsMS).forEach((subject) => {
                 sessionElement.addEventListener("click", (e) => {
                   if (
                     e.target.id ==
-                      `side-al-button-${subject}-${year}-${session}` ||
+                    `side-al-button-${subject}-${year}-${session}` ||
                     e.target.id == `side-al-${subject}-${year}-${session}-title`
                   ) {
                     changePath(`al>${subject}>${year}>${session}`);
@@ -791,7 +794,7 @@ Object.keys(alSubjectsMS).forEach((subject) => {
               openedSideBarArray.splice(index, 1);
             }
             const sideYearSessions = document.getElementById(
-              `side-al-${subject}-${year}-sessions`,
+              `side-al-${subject}-${year}-sessions`
             );
             const sessionsLength = sideYearSessions.childNodes.length;
             for (let i = 0; i < sessionsLength; i++) {
@@ -816,7 +819,7 @@ Object.keys(alSubjectsMS).forEach((subject) => {
     },
     removeContainerCallback: () => {
       const sideSubjectYears = document.getElementById(
-        `side-al-${subject}-years`,
+        `side-al-${subject}-years`
       );
       const yearLength = sideSubjectYears.childNodes.length;
       for (let i = 0; i < yearLength; i++) {
@@ -847,7 +850,7 @@ Object.keys(crSubjectsMS).forEach((subject) => {
     subject: subject,
     generateContainerCallback: () => {
       const sideSubjectYears = document.getElementById(
-        `side-cr-${subject}-years`,
+        `side-cr-${subject}-years`
       );
       Object.keys(crSubjectsMS[subject]).forEach((year) => {
         let opened =
@@ -864,7 +867,7 @@ Object.keys(crSubjectsMS).forEach((subject) => {
               openedSideBarArray.push(`cr-${subject}-${year}`);
             }
             const sideYearSessions = document.getElementById(
-              `side-cr-${subject}-${year}-sessions`,
+              `side-cr-${subject}-${year}-sessions`
             );
             Object.keys(crSubjectsMS[subject][year]).forEach((session) => {
               if (
@@ -873,7 +876,7 @@ Object.keys(crSubjectsMS).forEach((subject) => {
               ) {
                 let opened =
                   openedSideBarArray.indexOf(
-                    `cr-${subject}-${year}-${session}`,
+                    `cr-${subject}-${year}-${session}`
                   ) == -1
                     ? false
                     : true;
@@ -886,11 +889,11 @@ Object.keys(crSubjectsMS).forEach((subject) => {
                   generateContainerCallback: () => {
                     if (!opened) {
                       openedSideBarArray.push(
-                        `cr-${subject}-${year}-${session}`,
+                        `cr-${subject}-${year}-${session}`
                       );
                     }
                     const sideSessionVariants = document.getElementById(
-                      `side-cr-${subject}-${year}-${session}-variants`,
+                      `side-cr-${subject}-${year}-${session}-variants`
                     );
                     Object.keys(crSubjectsMS[subject][year][session]).forEach(
                       (variant) => {
@@ -907,36 +910,36 @@ Object.keys(crSubjectsMS).forEach((subject) => {
                           variantElement.addEventListener("click", (e) => {
                             if (
                               e.target.id ==
-                                `side-cr-button-${subject}-${year}-${session}-${variant}` ||
+                              `side-cr-button-${subject}-${year}-${session}-${variant}` ||
                               e.target.id ==
-                                `side-cr-${subject}-${year}-${session}-${variant}-title`
+                              `side-cr-${subject}-${year}-${session}-${variant}-title`
                             ) {
                               changePath(
-                                `cr>${subject}>${year}>${session}>${variant}`,
+                                `cr>${subject}>${year}>${session}>${variant}`
                               );
                             }
                           });
                           sideSessionVariants.appendChild(variantElement);
                         }
-                      },
+                      }
                     );
                   },
                   removeContainerCallback: () => {
                     let index = openedSideBarArray.indexOf(
-                      `cr-${subject}-${year}-${session}`,
+                      `cr-${subject}-${year}-${session}`
                     );
                     if (index != -1) {
                       openedSideBarArray.splice(index, 1);
                     }
                     const sideSessionVariants = document.getElementById(
-                      `side-cr-${subject}-${year}-${session}-variants`,
+                      `side-cr-${subject}-${year}-${session}-variants`
                     );
                     const variantsLength =
                       sideSessionVariants.childNodes.length;
                     for (let i = 0; i < variantsLength; i++) {
                       let timeout = setTimeout(() => {
                         sideSessionVariants.removeChild(
-                          sideSessionVariants.childNodes[0],
+                          sideSessionVariants.childNodes[0]
                         );
                         clearTimeout(timeout);
                       }, 100);
@@ -946,7 +949,7 @@ Object.keys(crSubjectsMS).forEach((subject) => {
                 sessionElement.addEventListener("click", (e) => {
                   if (
                     e.target.id ==
-                      `side-cr-button-${subject}-${year}-${session}` ||
+                    `side-cr-button-${subject}-${year}-${session}` ||
                     e.target.id == `side-cr-${subject}-${year}-${session}-title`
                   ) {
                     changePath(`cr>${subject}>${year}>${session}`);
@@ -962,7 +965,7 @@ Object.keys(crSubjectsMS).forEach((subject) => {
               openedSideBarArray.splice(index, 1);
             }
             const sideYearSessions = document.getElementById(
-              `side-cr-${subject}-${year}-sessions`,
+              `side-cr-${subject}-${year}-sessions`
             );
             const sessionsLength = sideYearSessions.childNodes.length;
             for (let i = 0; i < sessionsLength; i++) {
@@ -987,7 +990,7 @@ Object.keys(crSubjectsMS).forEach((subject) => {
     },
     removeContainerCallback: () => {
       const sideSubjectYears = document.getElementById(
-        `side-cr-${subject}-years`,
+        `side-cr-${subject}-years`
       );
       const yearLength = sideSubjectYears.childNodes.length;
       for (let i = 0; i < yearLength; i++) {
@@ -1071,18 +1074,16 @@ function createHomeMenu() {
 // creating the sub menu buttons
 function CreateSubMenu(level, subject, year, session) {
   const menu = document.createElement("div");
-  menu.id = `Select a ${
-    session == undefined
-      ? year == undefined
-        ? "years-menu"
-        : "sessions-menu"
-      : "variants-menu"
-  }`;
+  menu.id = `Select a ${session == undefined
+    ? year == undefined
+      ? "years-menu"
+      : "sessions-menu"
+    : "variants-menu"
+    }`;
   menu.classList.add("sub-menu");
   const title = document.createElement("h2");
-  title.textContent = `Select a ${
-    session == undefined ? (year == undefined ? "year" : "session") : "variant"
-  }`;
+  title.textContent = `Select a ${session == undefined ? (year == undefined ? "year" : "session") : "variant"
+    }`;
   menu.appendChild(title);
 
   const cardsContainer = document.createElement("div");
@@ -1097,7 +1098,7 @@ function CreateSubMenu(level, subject, year, session) {
             year,
             undefined,
             undefined,
-            randomImagesArray[randomImageCounter],
+            randomImagesArray[randomImageCounter]
           );
           randomImageCounter++;
           createRotatingCard(yearElement);
@@ -1119,7 +1120,7 @@ function CreateSubMenu(level, subject, year, session) {
               year,
               session,
               undefined,
-              randomImagesArray[randomImageCounter],
+              randomImagesArray[randomImageCounter]
             );
             randomImageCounter++;
             createRotatingCard(sessionElement);
@@ -1139,7 +1140,7 @@ function CreateSubMenu(level, subject, year, session) {
             year,
             session,
             variant,
-            randomImagesArray[randomImageCounter],
+            randomImagesArray[randomImageCounter]
           );
           randomImageCounter++;
           createRotatingCard(variantElement);
@@ -1161,7 +1162,7 @@ function CreateSubMenu(level, subject, year, session) {
             year,
             undefined,
             undefined,
-            randomImagesArray[randomImageCounter],
+            randomImagesArray[randomImageCounter]
           );
           randomImageCounter++;
           createRotatingCard(yearElement);
@@ -1183,7 +1184,7 @@ function CreateSubMenu(level, subject, year, session) {
               year,
               session,
               undefined,
-              randomImagesArray[randomImageCounter],
+              randomImagesArray[randomImageCounter]
             );
             randomImageCounter++;
             createRotatingCard(sessionElement);
@@ -1203,7 +1204,7 @@ function CreateSubMenu(level, subject, year, session) {
             year,
             session,
             variant,
-            randomImagesArray[randomImageCounter],
+            randomImagesArray[randomImageCounter]
           );
           randomImageCounter++;
           createRotatingCard(variantElement);
@@ -1225,7 +1226,7 @@ function CreateSubMenu(level, subject, year, session) {
             year,
             undefined,
             undefined,
-            randomImagesArray[randomImageCounter],
+            randomImagesArray[randomImageCounter]
           );
           randomImageCounter++;
           createRotatingCard(yearElement);
@@ -1247,7 +1248,7 @@ function CreateSubMenu(level, subject, year, session) {
               year,
               session,
               undefined,
-              randomImagesArray[randomImageCounter],
+              randomImagesArray[randomImageCounter]
             );
             randomImageCounter++;
             createRotatingCard(sessionElement);
@@ -1267,7 +1268,7 @@ function CreateSubMenu(level, subject, year, session) {
             year,
             session,
             variant,
-            randomImagesArray[randomImageCounter],
+            randomImagesArray[randomImageCounter]
           );
           randomImageCounter++;
           createRotatingCard(variantElement);
@@ -1313,17 +1314,16 @@ function createRotatingCard(elementContainer) {
       x:
         ((e.clientX - elementContainer.getBoundingClientRect().x) /
           elementContainer.getBoundingClientRect().width) *
-          (45 / 2) -
+        (45 / 2) -
         45 / 2 / 2,
       y:
         ((e.clientY - elementContainer.getBoundingClientRect().y) /
           elementContainer.getBoundingClientRect().height) *
-          (45 / 2) -
+        (45 / 2) -
         45 / 2 / 2,
     };
-    element.style.transform = `rotateY(${
-      mousePos.x
-    }deg) rotateX(${-mousePos.y}deg) scale(1.025)`;
+    element.style.transform = `rotateY(${mousePos.x
+      }deg) rotateX(${-mousePos.y}deg) scale(1.025)`;
   }
 }
 
@@ -1333,7 +1333,7 @@ function createBubbleSheetMenu(
   year,
   session,
   variant,
-  useLocalAnswers,
+  useLocalAnswers
 ) {
   const menu = document.createElement("div");
   menu.id = "bubble-sheet-menu";
@@ -1342,380 +1342,23 @@ function createBubbleSheetMenu(
   const title = document.createElement("h2");
   title.classList.add("bubble-sheet-title");
   title.id = "bubble-sheet-title";
-  const titleContainer = document.createElement("div");
-  titleContainer.style.textAlign = "center";
-  titleContainer.style.marginBottom = "30px";
-  titleContainer.innerHTML = `
-    <h2 style="font-family: var(--font-display, 'Space Grotesk', sans-serif); font-size: 1.75rem; font-weight: 700; color: #ffffff; letter-spacing: -0.02em; margin-bottom: 8px;">Paper Ready</h2>
-    <p style="font-size: 1rem; color: #8b949e;">Select your preferred workspace to begin solving.</p>
-  `;
-  menu.appendChild(titleContainer);
-
-  const is2025OrLater = Number(year) >= 2025;
-  const filename = `${subjectCode[level.toUpperCase() + subject]}_${session}${
-    Number(year) - 2000
-  }_qp_${subject == "Economics" ? 1 : level == "al" || level == "cr" ? 1 : 2}${
-    Number(variant) + 1
-  }.pdf`;
-  
-  // Use our local proxy for PapaCambridge to bypass CORS for 2025+ papers
-  const basePdfUrl = is2025OrLater
-    ? `/api/pdf-proxy?url=` + encodeURIComponent(`https://pastpapers.papacambridge.com/directories/CAIE/CAIE-pastpapers/upload/${filename}`)
-    : `https://zieddev.github.io/mcq-mate/pdfs/${level.toUpperCase()}-${subject}/${year}/${
-        session == "s" ? "May-Jun" : session == "w" ? "Oct-Nov" : "Feb-Mar"
-      }/${filename}`;
-
-  const layoutSelectContainer = document.createElement("div");
-  layoutSelectContainer.id = "layout-select-container";
-  layoutSelectContainer.style.marginBottom = "32px";
-  layoutSelectContainer.style.display = "flex";
-  layoutSelectContainer.style.flexDirection = "column";
-  layoutSelectContainer.style.alignItems = "center";
-  layoutSelectContainer.style.gap = "12px";
-  layoutSelectContainer.style.width = "100%";
-  layoutSelectContainer.innerHTML = `
-    <h3 style="color: #f0f6fc; font-weight: 800; font-size: 1.25rem; letter-spacing: -0.01em; margin-bottom: 24px; text-transform: uppercase; text-align: center; background: linear-gradient(90deg, #bb86fc, #ff79c6, #8be9fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 20px rgba(187, 134, 252, 0.4);">Choose your workspace</h3>
-    <div class="custom-layout-select" id="custom-layout-select">
-      <div class="custom-layout-select-trigger" id="custom-layout-select-trigger">
-        <div class="layout-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-          <span id="custom-layout-selected-text">Select Layout...</span>
-        </div>
-        <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);"><polyline points="6 9 12 15 18 9"></polyline></svg>
-      </div>
-      <div class="custom-layout-options" id="custom-layout-options">
-        <div class="custom-layout-option handout" data-value="handout">
-          <div class="icon-box" style="background: linear-gradient(135deg, rgba(88, 166, 255, 0.15), rgba(88, 166, 255, 0.05)); color: #58a6ff; box-shadow: 0 0 10px rgba(88, 166, 255, 0.2);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg></div>
-          <div class="option-text">
-            <span class="option-title" style="color: #58a6ff; text-shadow: 0 0 8px rgba(88, 166, 255, 0.3);">Handout</span>
-            <span class="option-desc">Bubble sheet focus, external viewer</span>
-          </div>
-        </div>
-        <div class="custom-layout-option exam" data-value="exam">
-          <div class="icon-box" style="background: linear-gradient(135deg, rgba(163, 113, 247, 0.15), rgba(163, 113, 247, 0.05)); color: #a371f7; box-shadow: 0 0 10px rgba(163, 113, 247, 0.2);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="3" x2="12" y2="21"></line></svg></div>
-          <div class="option-text">
-            <span class="option-title" style="color: #a371f7; text-shadow: 0 0 8px rgba(163, 113, 247, 0.3);">Exam Screen</span>
-            <span class="option-desc">Side-by-side split layout</span>
-          </div>
-        </div>
-        <div class="custom-layout-option practice" data-value="practice">
-          <div class="icon-box" style="background: linear-gradient(135deg, rgba(63, 185, 80, 0.15), rgba(63, 185, 80, 0.05)); color: #3fb950; box-shadow: 0 0 10px rgba(63, 185, 80, 0.2);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div>
-          <div class="option-text">
-            <span class="option-title" style="color: #3fb950; text-shadow: 0 0 8px rgba(63, 185, 80, 0.3);">Practice Mode</span>
-            <span class="option-desc">Full-screen native exam interface</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
-
-  menu.appendChild(layoutSelectContainer);
-  
-  // Exit Exam Mode logic is now inside the select handler
-
-  const pdfButtonsContainer = document.createElement("div");
-  pdfButtonsContainer.id = "pdf-buttons-container";
-  pdfButtonsContainer.style.display = "none";
-  pdfButtonsContainer.style.justifyContent = "center";
-  pdfButtonsContainer.style.gap = "1rem";
-  pdfButtonsContainer.style.width = "100%";
-  pdfButtonsContainer.style.flexWrap = "wrap";
-  pdfButtonsContainer.style.marginBottom = "24px";
+  title.textContent = "Everything is set. Now you can start solving.";
+  menu.appendChild(title);
 
   const pdfLink = document.createElement("a");
-  pdfLink.classList.add("bubble-sheet-pdf-btn", "external-pdf-btn");
+  pdfLink.classList.add("bubble-sheet-pdf-link");
   pdfLink.id = "bubble-sheet-pdf-link";
-  pdfLink.href = basePdfUrl;
+  pdfLink.textContent = "Open pdf in external tab";
+  pdfLink.href = `./pdfs/${level.toUpperCase()}-${subject}/${year}/${session == "s" ? "May-Jun" : session == "w" ? "Oct-Nov" : "Feb-Mar"
+    }/${subjectCode[level.toUpperCase() + subject]}_${session}${Number(year) - 2000
+    }_qp_${subject == "Economics" ? 1 : level == "al" || level == "cr" ? 1 : 2}${Number(variant) + 1
+    }.pdf`;
   pdfLink.setAttribute("target", "_blank");
-  pdfLink.innerHTML = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px; display:inline-block; vertical-align:middle; pointer-events: none;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-    <span style="vertical-align:middle; pointer-events:none;">External Tab</span>
-  `;
-  pdfLink.style.display = "inline-flex";
-  pdfLink.style.alignItems = "center";
-  pdfLink.style.padding = "10px 20px";
-  pdfLink.style.borderRadius = "8px";
-  pdfLink.style.border = "1px solid #363b42";
-  pdfLink.style.backgroundColor = "transparent";
-  pdfLink.style.color = "#c9d1d9";
-  pdfLink.style.textDecoration = "none";
-  pdfLink.style.cursor = "pointer";
-  pdfLink.style.fontWeight = "600";
-  pdfLink.style.transition = "all 0.2s";
-  pdfLink.onmouseenter = () => {
-    pdfLink.style.backgroundColor = "#21262d";
-  };
-  pdfLink.onmouseleave = () => {
-    pdfLink.style.backgroundColor = "transparent";
-  };
-
-  const builtInPdfBtn = document.createElement("button");
-  builtInPdfBtn.classList.add("bubble-sheet-pdf-btn");
-  builtInPdfBtn.innerHTML = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px; display:inline-block; vertical-align:middle; pointer-events: none;"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-    <span style="vertical-align:middle; pointer-events:none;">Built-in Viewer (Z)</span>
-  `;
-  builtInPdfBtn.style.padding = "10px 20px";
-  builtInPdfBtn.style.borderRadius = "8px";
-  builtInPdfBtn.style.border = "1px solid #2ea043";
-  builtInPdfBtn.style.backgroundColor = "transparent";
-  builtInPdfBtn.style.color = "#2ea043";
-  builtInPdfBtn.style.cursor = "pointer";
-  builtInPdfBtn.style.fontWeight = "600";
-  builtInPdfBtn.style.display = "inline-flex";
-  builtInPdfBtn.style.alignItems = "center";
-  builtInPdfBtn.style.transition = "all 0.2s";
-  builtInPdfBtn.onmouseenter = () => {
-    builtInPdfBtn.style.backgroundColor = "rgba(46, 160, 67, 0.1)";
-  };
-  builtInPdfBtn.onmouseleave = () => {
-    builtInPdfBtn.style.backgroundColor = "transparent";
-  };
-  builtInPdfBtn.onclick = () => {
-    document.body.classList.remove("split-screen-active");
-    if (menu.style.position === "fixed") {
-      menu.style = ""; // reset
-    }
-    globalPDFSystem.toggle(basePdfUrl);
-  };
-
-  pdfButtonsContainer.appendChild(pdfLink);
-  pdfButtonsContainer.appendChild(builtInPdfBtn);
-  menu.appendChild(pdfButtonsContainer);
-
-  const realtimeSettingsContainer = document.createElement("div");
-  realtimeSettingsContainer.className = "realtime-settings";
-  realtimeSettingsContainer.id = "split-screen-realtime-settings";
-  realtimeSettingsContainer.style.display = "none";
-  realtimeSettingsContainer.style.background = "#161b22";
-  realtimeSettingsContainer.style.border = "1px solid #30363d";
-  realtimeSettingsContainer.style.borderRadius = "10px";
-  realtimeSettingsContainer.style.padding = "12px 16px";
-  realtimeSettingsContainer.style.marginBottom = "24px";
-  realtimeSettingsContainer.style.maxWidth = "400px";
-  realtimeSettingsContainer.style.margin = "0 auto 24px auto";
-
-  const realtimeRow = document.createElement("div");
-  realtimeRow.className = "realtime-row";
-  realtimeRow.style.cursor = "pointer";
-  realtimeRow.style.display = "flex";
-  realtimeRow.style.justifyContent = "space-between";
-  realtimeRow.style.alignItems = "center";
-  realtimeRow.innerHTML = `
-      <span style="font-weight: 600; color: #c9d1d9;">Realtime Answers</span>
-      <div class="toggle-switch-wrapper" id="realtime-toggle" style="pointer-events:none;">
-          <div class="toggle-switch" id="realtime-toggle-ui">
-              <div class="toggle-thumb"></div>
-          </div>
-      </div>
-  `;
-
-  realtimeSettingsContainer.appendChild(realtimeRow);
-  menu.appendChild(realtimeSettingsContainer);
+  menu.appendChild(pdfLink);
 
   const bubbleSheetContainer = document.createElement("div");
   bubbleSheetContainer.id = "bubble-sheet-container";
   bubbleSheetContainer.classList.add("bubble-sheet-container");
-  bubbleSheetContainer.style.display = "none";
-  
-  const customSelect = layoutSelectContainer.querySelector("#custom-layout-select");
-  const customSelectTrigger = layoutSelectContainer.querySelector("#custom-layout-select-trigger");
-  const options = layoutSelectContainer.querySelectorAll(".custom-layout-option");
-  const selectedText = layoutSelectContainer.querySelector("#custom-layout-selected-text");
-
-  customSelectTrigger.addEventListener("click", () => {
-    customSelect.classList.toggle("open");
-    customSelectTrigger.classList.toggle("open");
-  });
-
-  document.addEventListener("click", (e) => {
-    if (!customSelect.contains(e.target)) {
-      customSelect.classList.remove("open");
-      customSelectTrigger.classList.remove("open");
-    }
-  });
-
-  options.forEach(option => {
-    option.addEventListener("click", async (e) => {
-      const val = option.dataset.value;
-      const title = option.querySelector('.option-title').textContent;
-      
-      selectedText.textContent = title;
-      customSelect.classList.remove("open");
-      customSelectTrigger.classList.remove("open");
-      
-      // Cleanup any existing modes
-      const oldExitBtn = document.getElementById("exit-exam-mode-btn");
-      if (oldExitBtn) oldExitBtn.remove();
-      
-      document.body.classList.remove("split-screen-active");
-      menu.style = ""; // reset menu
-      document.querySelector("header").style.display = "";
-      document.getElementById("top-bar").style.display = "";
-      if (globalTimer) {
-        document.getElementById("top-bar").after(globalTimer);
-      }
-      
-      // Hide pdf viewer if active
-      const pdfViewer = document.getElementById("new-x-pdf-viewer");
-      if (pdfViewer && pdfViewer.classList.contains("visible")) {
-        globalPDFSystem.toggle(null); // Just toggles off
-      }
-      // Cleanup CBT practice mode
-      const cbtContainer = document.getElementById("cbt-system-container");
-      if (cbtContainer) cbtContainer.remove();
-
-      const buttonsContainer = document.querySelector(".bubble-sheet-buttons-container");
-      const markContainer = document.getElementById("exam-mark");
-
-      if (val === "handout") {
-         pdfButtonsContainer.style.display = "flex";
-         realtimeSettingsContainer.style.display = "block";
-         bubbleSheetContainer.style.display = "grid";
-         if (buttonsContainer) buttonsContainer.style.display = "flex";
-         if (markContainer) markContainer.style.display = "block";
-      } else if (val === "exam") {
-         pdfButtonsContainer.style.display = "none";
-         // Enter split screen
-         document.body.classList.add("split-screen-active");
-         
-         globalPDFSystem.toggle(basePdfUrl);
-         
-         // Restore original exam screen layout styling
-         menu.style.position = "fixed";
-         menu.style.right = "0";
-         menu.style.top = "0";
-         menu.style.width = "350px";
-         menu.style.height = "100vh";
-         menu.style.overflowY = "auto";
-         menu.style.backgroundColor = "#1e1e1e";
-         menu.style.color = "#c9d1d9";
-         menu.style.zIndex = "100000";
-         menu.style.padding = "20px 20px 80px 20px";
-         menu.style.margin = "0";
-         menu.style.borderRadius = "0";
-         menu.style.maxWidth = "100%";
-         menu.style.border = "none";
-         menu.style.boxShadow = "none";
-         
-         document.querySelector("header").style.display = "none";
-         document.getElementById("top-bar").style.display = "none";
-         
-         if (globalTimer) {
-            menu.insertBefore(globalTimer, menu.firstChild);
-         }
-         bubbleSheetContainer.style.display = "grid";
-         
-         let exitExamModeBtn = document.createElement("button");
-         exitExamModeBtn.id = "exit-exam-mode-btn";
-         exitExamModeBtn.className = "exit-exam-mode-btn";
-         exitExamModeBtn.style.display = "flex";
-         exitExamModeBtn.innerHTML = `
-           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-           Exit Exam Layout
-         `;
-         
-         // We append it to .pdf-header-left so it appears in the PDF toolbar
-         const pollForHeader = setInterval(() => {
-           const pdfHeaderLeft = document.querySelector(".pdf-header-left");
-           if (pdfHeaderLeft) {
-             pdfHeaderLeft.appendChild(exitExamModeBtn);
-             clearInterval(pollForHeader);
-           }
-         }, 100);
-         
-         exitExamModeBtn.addEventListener("click", () => {
-           const handoutOption = document.querySelector('.custom-layout-option[data-value="handout"]');
-           if (handoutOption) handoutOption.click();
-         });
-         
-         // make submit, reveal, and mark visible in exam mode too
-         realtimeSettingsContainer.style.display = "block";
-         if (buttonsContainer) buttonsContainer.style.display = "flex";
-         if (markContainer) markContainer.style.display = "block";
-      } else if (val === "practice") {
-         // This is removed from view but keep logic in case we want to bring it back
-         // Update: the user said "also remove practice button that inside exam layout",
-         // we'll actually just hide it in CSS when split screen is active, or we could remove it from the select menu entirely.
-         // Actually the user wants it removed from "inside exam layout" or maybe they mean the select menu? We will remove it here just in case.
-         pdfButtonsContainer.style.display = "none";
-         realtimeSettingsContainer.style.display = "none";
-         bubbleSheetContainer.style.display = "none";
-         if (buttonsContainer) buttonsContainer.style.display = "none";
-         if (markContainer) markContainer.style.display = "none";
-         
-         let doc = window.globalPDFSystem?.pdfDocument;
-         try {
-             if (!doc) {
-               selectedText.textContent = "Loading...";
-               customSelectTrigger.style.pointerEvents = "none";
-               let loadingTask = pdfjsLib.getDocument(basePdfUrl);
-               doc = await loadingTask.promise;
-             }
-             if (doc) {
-               const module = await import("./cbt-mode.js");
-               const cbt = new module.CBTSystem();
-               cbt.init(doc, { modelAnswers, basePdfUrl });
-             } else {
-               alert("Failed to load PDF for Practice Mode.");
-               const handoutOpt = document.querySelector('.custom-layout-option[data-value="handout"]');
-               if (handoutOpt) handoutOpt.click();
-             }
-         } catch (error) {
-             console.error(error);
-             alert("Error starting Practice Mode.");
-             const handoutOpt = document.querySelector('.custom-layout-option[data-value="handout"]');
-             if (handoutOpt) handoutOpt.click();
-         } finally {
-             customSelectTrigger.style.pointerEvents = "auto";
-         }
-      }
-    });
-  });
-
-  let isRealtimeAnswers = false;
-  realtimeRow.onclick = () => {
-    isRealtimeAnswers = !isRealtimeAnswers;
-    document
-      .getElementById("realtime-toggle-ui")
-      .classList.toggle("active", isRealtimeAnswers);
-    if (isRealtimeAnswers) {
-      // Apply it immediately for all currently answered
-      if (typeof submitBehavior === "function") {
-        submitBehavior(userAnswers);
-      }
-    } else {
-      // Clear all marks
-      for (let i = 0; i < modelAnswers.length; i++) {
-        const Question = document.getElementById(`question-${i}-number`);
-        if (Question) {
-          Question.classList.remove(
-            "wrong-question",
-            "correct-question",
-            "discounted-question",
-          );
-        }
-        const opts = ["a", "b", "c", "d"];
-        opts.forEach((o) => {
-          const el = document.getElementById(`question-${i}-${o}`);
-          if (el) {
-            el.classList.remove(
-              "corrected-question",
-              "corrected-discounted-question",
-            );
-          }
-        });
-      }
-      const markEl = document.getElementById("exam-mark");
-      if (
-        markEl &&
-        markEl.textContent.trim() !== `- / ${modelAnswers.length}`
-      ) {
-        markEl.textContent = `- / ${modelAnswers.length}`;
-        markEl.classList.remove("ACE");
-      }
-    }
-  };
 
   let modelAnswers =
     level == "cr"
@@ -1732,7 +1375,7 @@ function createBubbleSheetMenu(
   if (localStorage.getItem(localKey) == null) {
     localStorage.setItem(
       localKey,
-      Array.from({ length: 40 }).fill("N").join(""),
+      Array.from({ length: 40 }).fill("N").join("")
     );
     localStorage.setItem(localKey + "s", "");
   }
@@ -1778,45 +1421,119 @@ function createBubbleSheetMenu(
     questionD.textContent = "D";
     questionD.id = `question-${i}-d`;
 
-    const options = ["A", "B", "C", "D"];
-    const questionEls = [questionA, questionB, questionC, questionD];
+    if (userAnswers[i] == "A") {
+      questionA.classList.add("bubble-chosen");
+      questionB.classList.remove("bubble-chosen");
+      questionC.classList.remove("bubble-chosen");
+      questionD.classList.remove("bubble-chosen");
+    } else if (userAnswers[i] == "B") {
+      questionA.classList.remove("bubble-chosen");
+      questionB.classList.add("bubble-chosen");
+      questionC.classList.remove("bubble-chosen");
+      questionD.classList.remove("bubble-chosen");
+    } else if (userAnswers[i] == "C") {
+      questionA.classList.remove("bubble-chosen");
+      questionB.classList.remove("bubble-chosen");
+      questionC.classList.add("bubble-chosen");
+      questionD.classList.remove("bubble-chosen");
+    } else if (userAnswers[i] == "D") {
+      questionA.classList.remove("bubble-chosen");
+      questionB.classList.remove("bubble-chosen");
+      questionC.classList.remove("bubble-chosen");
+      questionD.classList.add("bubble-chosen");
+    }
 
-    // Set initial classes
-    options.forEach((opt, idx) => {
-      if (userAnswers[i] === opt) {
-        questionEls[idx].classList.add("bubble-chosen");
-      } else {
-        questionEls[idx].classList.remove("bubble-chosen");
-      }
-
-      // Setup event listeners
-      questionEls[idx].addEventListener("click", () => {
-        let isSelecting = userAnswers[i] !== opt;
-
-        // Update UI
-        questionEls.forEach((el, elIdx) => {
-          if (elIdx === idx && isSelecting) {
-            el.classList.add("bubble-chosen");
-          } else {
-            el.classList.remove("bubble-chosen");
-          }
-        });
-
-        // Update logical state
-        userAnswers[i] = isSelecting ? opt : "N";
-
-        // Update localStorage
+    questionA.addEventListener("click", () => {
+      if (userAnswers[i] != "A") {
+        questionA.classList.add("bubble-chosen");
+        questionB.classList.remove("bubble-chosen");
+        questionC.classList.remove("bubble-chosen");
+        questionD.classList.remove("bubble-chosen");
+        userAnswers[i] = "A";
         let localAnswersString = localStorage.getItem(localKey).split("");
-        localAnswersString[i] = userAnswers[i];
+        localAnswersString[i] = "A";
         localStorage.setItem(localKey, localAnswersString.join(""));
-
-        if (isRealtimeAnswers && typeof submitBehavior === "function") {
-          submitBehavior(userAnswers);
-        }
-      });
-
-      bubbleSheetContainer.appendChild(questionEls[idx]);
+      } else {
+        questionA.classList.remove("bubble-chosen");
+        questionB.classList.remove("bubble-chosen");
+        questionC.classList.remove("bubble-chosen");
+        questionD.classList.remove("bubble-chosen");
+        userAnswers[i] = "N";
+        let localAnswersString = localStorage.getItem(localKey).split("");
+        localAnswersString[i] = "N";
+        localStorage.setItem(localKey, localAnswersString.join(""));
+      }
     });
+    bubbleSheetContainer.appendChild(questionA);
+
+    questionB.addEventListener("click", () => {
+      if (userAnswers[i] != "B") {
+        questionA.classList.remove("bubble-chosen");
+        questionB.classList.add("bubble-chosen");
+        questionC.classList.remove("bubble-chosen");
+        questionD.classList.remove("bubble-chosen");
+        userAnswers[i] = "B";
+        let localAnswersString = localStorage.getItem(localKey).split("");
+        localAnswersString[i] = "B";
+        localStorage.setItem(localKey, localAnswersString.join(""));
+      } else {
+        questionA.classList.remove("bubble-chosen");
+        questionB.classList.remove("bubble-chosen");
+        questionC.classList.remove("bubble-chosen");
+        questionD.classList.remove("bubble-chosen");
+        userAnswers[i] = "N";
+        let localAnswersString = localStorage.getItem(localKey).split("");
+        localAnswersString[i] = "N";
+        localStorage.setItem(localKey, localAnswersString.join(""));
+      }
+    });
+    bubbleSheetContainer.appendChild(questionB);
+
+    questionC.addEventListener("click", () => {
+      if (userAnswers[i] != "C") {
+        questionA.classList.remove("bubble-chosen");
+        questionB.classList.remove("bubble-chosen");
+        questionC.classList.add("bubble-chosen");
+        questionD.classList.remove("bubble-chosen");
+        userAnswers[i] = "C";
+        let localAnswersString = localStorage.getItem(localKey).split("");
+        localAnswersString[i] = "C";
+        localStorage.setItem(localKey, localAnswersString.join(""));
+      } else {
+        questionA.classList.remove("bubble-chosen");
+        questionB.classList.remove("bubble-chosen");
+        questionC.classList.remove("bubble-chosen");
+        questionD.classList.remove("bubble-chosen");
+        userAnswers[i] = "N";
+        let localAnswersString = localStorage.getItem(localKey).split("");
+        localAnswersString[i] = "N";
+        localStorage.setItem(localKey, localAnswersString.join(""));
+      }
+    });
+    bubbleSheetContainer.appendChild(questionC);
+
+    questionD.addEventListener("click", () => {
+      if (userAnswers[i] != "D") {
+        questionA.classList.remove("bubble-chosen");
+        questionB.classList.remove("bubble-chosen");
+        questionC.classList.remove("bubble-chosen");
+        questionD.classList.add("bubble-chosen");
+        userAnswers[i] = "D";
+        let localAnswersString = localStorage.getItem(localKey).split("");
+        localAnswersString[i] = "D";
+        localStorage.setItem(localKey, localAnswersString.join(""));
+      } else {
+        questionA.classList.remove("bubble-chosen");
+        questionB.classList.remove("bubble-chosen");
+        questionC.classList.remove("bubble-chosen");
+        questionD.classList.remove("bubble-chosen");
+        userAnswers[i] = "N";
+        let localAnswersString = localStorage.getItem(localKey).split("");
+        localAnswersString[i] = "N";
+        localStorage.setItem(localKey, localAnswersString.join(""));
+      }
+    });
+    bubbleSheetContainer.appendChild(questionD);
   }
   menu.appendChild(bubbleSheetContainer);
 
@@ -1831,7 +1548,7 @@ function createBubbleSheetMenu(
       }
       if (focus > 3) {
         const focusElement = document.getElementById(
-          `question-${focus - 2}-number`,
+          `question-${focus - 2}-number`
         );
         focusElement.scrollIntoView({ behavior: "smooth" });
         clearTimeout(waitForBubbleSheet);
@@ -1841,7 +1558,6 @@ function createBubbleSheetMenu(
 
   const buttonsContainer = document.createElement("div");
   buttonsContainer.classList.add("bubble-sheet-buttons-container");
-  buttonsContainer.style.display = "none";
   const submitButton = document.createElement("button");
   submitButton.textContent = "Submit";
   submitButton.classList.add("bubble-sheet-submit-button");
@@ -1855,7 +1571,6 @@ function createBubbleSheetMenu(
   const mark = document.createElement("div");
   mark.id = "exam-mark";
   mark.classList.add("exam-mark");
-  mark.style.display = "none";
   mark.textContent = `- / ${modelAnswers.length}`;
 
   if (localStorage.getItem(localKey + "s") != "") {
@@ -1919,8 +1634,7 @@ function createBubbleSheetMenu(
       createModal(
         "", // title
         [
-          `You have already submitted this exam before and got ${
-            recalculatePastExam(localStorage.getItem(localKey + "s"))[0]
+          `You have already submitted this exam before and got ${recalculatePastExam(localStorage.getItem(localKey + "s"))[0]
           } / ${recalculatePastExam(localStorage.getItem(localKey + "s"))[1]}.`,
           `Do you want to solve it again or inspect your answers?`,
         ], // content,
@@ -1929,13 +1643,13 @@ function createBubbleSheetMenu(
           () => {
             localStorage.setItem(
               localKey,
-              Array.from({ length: 40 }).fill("N").join(""),
+              Array.from({ length: 40 }).fill("N").join("")
             );
             localStorage.setItem(localKey + "s", "");
             resetBubbleSheet();
           },
         ],
-        ["Inspect", () => {}],
+        ["Inspect", () => { }]
       );
 
       clearTimeout(waitForBubbleSheet);
@@ -1944,7 +1658,7 @@ function createBubbleSheetMenu(
     localStorage.getItem(localKey) != "" &&
     localStorage.getItem(localKey) != null &&
     localStorage.getItem(localKey) !=
-      "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN" &&
+    "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN" &&
     !useLocalAnswers
   ) {
     let waitForBubbleSheet = setTimeout(() => {
@@ -1965,7 +1679,7 @@ function createBubbleSheetMenu(
           () => {
             localStorage.setItem(
               localKey,
-              Array.from({ length: 40 }).fill("N").join(""),
+              Array.from({ length: 40 }).fill("N").join("")
             );
             localStorage.setItem(localKey + "s", "");
             resetBubbleSheet();
@@ -1973,7 +1687,7 @@ function createBubbleSheetMenu(
         ],
         () => {
           resetBubbleSheet(true);
-        },
+        }
       );
 
       clearTimeout(waitForBubbleSheet);
@@ -1996,7 +1710,7 @@ function createBubbleSheetMenu(
           () => {
             localStorage.setItem(
               localKey + "s",
-              localStorage.getItem(localKey).split("").join(""),
+              localStorage.getItem(localKey).split("").join("")
             );
             submitBehavior(localStorage.getItem(localKey + "s"));
             if (
@@ -2018,12 +1732,12 @@ function createBubbleSheetMenu(
             document.querySelector(".toggle-clock path").style.fill = "";
           },
         ],
-        ["Cancel", () => {}],
+        ["Cancel", () => { }]
       );
     } else {
       localStorage.setItem(
         localKey + "s",
-        localStorage.getItem(localKey).split("").join(""),
+        localStorage.getItem(localKey).split("").join("")
       );
       submitBehavior(localStorage.getItem(localKey + "s"));
       if (
@@ -2054,7 +1768,7 @@ function createBubbleSheetMenu(
           revealBehavior();
         },
       ],
-      ["Cancel", () => {}],
+      ["Cancel", () => { }]
     );
   });
   buttonsContainer.appendChild(submitButton);
@@ -2072,7 +1786,7 @@ function createBubbleSheetMenu(
   };
 
   let timeArray = Object.keys(timerTimes).includes(
-    `${level}_${subject.toLowerCase()}`,
+    `${level}_${subject.toLowerCase()}`
   )
     ? [...timerTimes[`${level}_${subject.toLowerCase()}`]]
     : [...timerTimes["default"]];
@@ -2107,7 +1821,7 @@ function createBubbleSheetMenu(
     clearInterval(timerInterval);
     isTimerRunning = false;
     timeArray = Object.keys(timerTimes).includes(
-      `${level}_${subject.toLowerCase()}`,
+      `${level}_${subject.toLowerCase()}`
     )
       ? [...timerTimes[`${level}_${subject.toLowerCase()}`]]
       : [...timerTimes["default"]];
@@ -2127,7 +1841,7 @@ function createBubbleSheetMenu(
     const digits = document.querySelectorAll(".digit");
     digits.forEach((digit, dIndex) => {
       let numbers = digit.children;
-      let target = time[dIndex % 5];
+      let target = time[dIndex];
       if (target != null) {
         for (let i = 0; i < 10; i++) {
           const number = numbers[i];
@@ -2198,7 +1912,7 @@ function createBubbleSheetMenu(
             () => {
               timerAudio.pause();
               timerAudio.currentTime = 0;
-            },
+            }
           );
         }
 
@@ -2229,10 +1943,10 @@ function createBubbleSheetMenu(
         <button class="timer-toggle-button" id="timer-toggle-button">
         <svg class="timer-toggle-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256"><path fill="#000000" d="M168.49 199.51a12 12 0 0 1-17 17l-80-80a12 12 0 0 1 0-17l80-80a12 12 0 0 1 17 17L97 128Z"/></svg>
         </button>
-        <button class="timer-stop-button" id="timer-stop-button">
+        <button class="timer-stop-button" id="class="timer-stop-button">
         <svg class="timer-play-stop" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256"><path fill="#000000" d="M140 80v41.21l34.17 20.5a12 12 0 1 1-12.34 20.58l-40-24A12 12 0 0 1 116 128V80a12 12 0 0 1 24 0m-12-52a99.38 99.38 0 0 0-70.76 29.34c-4.69 4.74-9 9.37-13.24 14V64a12 12 0 0 0-24 0v40a12 12 0 0 0 12 12h40a12 12 0 0 0 0-24H57.77c5.23-6 10.6-11.78 16.49-17.74a76 76 0 1 1 1.58 109a12 12 0 0 0-16.48 17.46A100 100 0 1 0 128 28"/></svg>
         </button>
-        <button class="timer-play-pause-button" id="timer-play-pause-button">
+        <button class="timer-play-pause-button" id="class="timer-play-pause-button">
         <svg class="timer-play-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256"><path fill="#000000" d="M240 128a15.74 15.74 0 0 1-7.6 13.51L88.32 229.65a16 16 0 0 1-16.2.3A15.86 15.86 0 0 1 64 216.13V39.87a15.86 15.86 0 0 1 8.12-13.82a16 16 0 0 1 16.2.3l144.08 88.14A15.74 15.74 0 0 1 240 128"/></svg>
         <svg class="timer-pause-icon hidden" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256"><path fill="#000000" d="M216 48v160a16 16 0 0 1-16 16h-40a16 16 0 0 1-16-16V48a16 16 0 0 1 16-16h40a16 16 0 0 1 16 16M96 32H56a16 16 0 0 0-16 16v160a16 16 0 0 0 16 16h40a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16"/></svg>
         </button>`;
@@ -2248,30 +1962,30 @@ function createBubbleSheetMenu(
     return clockElementContainer;
   }
 
+  // pdf viewer
+  let pdfViewOpened = false;
+  let periodicTablePdfViewOpened = false;
+
+  const pdfViewerContainer = document.createElement("div");
+  pdfViewerContainer.classList.add("pdf-viewer-container");
+  const switchToPdf = document.createElement("div");
+  switchToPdf.classList.add("switch-to-pdf");
+  switchToPdf.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256"><path fill="#ffffff" d="M200 164v8h12a12 12 0 0 1 0 24h-12v12a12 12 0 0 1-24 0v-56a12 12 0 0 1 12-12h32a12 12 0 0 1 0 24Zm-108 8a32 32 0 0 1-32 32h-4v4a12 12 0 0 1-24 0v-56a12 12 0 0 1 12-12h16a32 32 0 0 1 32 32m-24 0a8 8 0 0 0-8-8h-4v16h4a8 8 0 0 0 8-8m100 8a40 40 0 0 1-40 40h-16a12 12 0 0 1-12-12v-56a12 12 0 0 1 12-12h16a40 40 0 0 1 40 40m-24 0a16 16 0 0 0-16-16h-4v32h4a16 16 0 0 0 16-16M36 108V40a20 20 0 0 1 20-20h96a12 12 0 0 1 8.49 3.52l56 56A12 12 0 0 1 220 88v20a12 12 0 0 1-24 0v-4h-48a12 12 0 0 1-12-12V44H60v64a12 12 0 0 1-24 0m124-51v23h23Z"/></svg>`;
+  switchToPdf.addEventListener("click", openPdf);
+
   function shortcutsFunc(e) {
     try {
       if (e.key == "z" && !e.shiftKey && !e.ctrlKey) {
-        const is2025OrLater = Number(year) >= 2025;
-        const filename = `${subjectCode[level.toUpperCase() + subject]}_${session}${Number(year) - 2000}_qp_${subject == "Economics" ? 1 : level == "al" || level == "cr" ? 1 : 2}${Number(variant) + 1}.pdf`;
-        
-        const basePdfUrl = is2025OrLater
-          ? `/api/pdf-proxy?url=` + encodeURIComponent(`https://pastpapers.papacambridge.com/directories/CAIE/CAIE-pastpapers/upload/${filename}`)
-          : `https://zieddev.github.io/mcq-mate/pdfs/${level.toUpperCase()}-${subject}/${year}/${
-              session == "s" ? "May-Jun" : session == "w" ? "Oct-Nov" : "Feb-Mar"
-            }/${filename}`;
-        globalPDFSystem.toggle(basePdfUrl);
+        openPdf();
       }
-      
-      if (e.key == "p" && !e.shiftKey && !e.ctrlKey) {
-        if (!document.querySelector("#cbt-layout")) {
-            let btns = document.querySelectorAll('.bubble-sheet-pdf-btn');
-            for(let b of btns) {
-                if (b.textContent.includes('Practice Mode')) {
-                    b.click();
-                    break;
-                }
-            }
-        }
+
+      if (
+        e.key == "x" &&
+        !e.shiftKey &&
+        !e.ctrlKey &&
+        (subject == "Chemistry" || subject == "Combined")
+      ) {
+        openPeriodicTable();
       }
 
       if (e.key == "c" && !e.shiftKey && !e.ctrlKey) {
@@ -2288,26 +2002,76 @@ function createBubbleSheetMenu(
     shortcutsFunc(e);
   });
 
-  const switchToPdf = document.createElement("div");
-  switchToPdf.classList.add("switch-to-pdf");
-  switchToPdf.title = "Open PDF (Z)";
-  // Elegant dark Z logo as SVG
-  switchToPdf.innerHTML = `
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" style="border-radius: 50%; overflow: hidden; pointer-events:none;">
-      <rect width="100" height="100" style="fill:#010409 !important;" />
-      <circle cx="50" cy="50" r="45" style="fill:none !important; stroke:#238636 !important;" stroke-width="4" />
-      <path d="M30 35 h40 l-25 30 h30" style="fill:none !important; stroke:#e6edf3 !important; width:auto !important; height:auto !important;" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
-    </svg>
-  `;
-  switchToPdf.style.display = "flex";
-  switchToPdf.style.alignItems = "center";
-  switchToPdf.style.justifyContent = "center";
-  switchToPdf.style.padding = "2px";
-  switchToPdf.addEventListener("click", () => {
-    shortcutsFunc({ key: "z", shiftKey: false, ctrlKey: false });
-  });
+  function openPdf() {
+    if (!pdfViewOpened) {
+      if (navigator.onLine) {
+        const pdfViewer = document.createElement("div");
+        pdfViewer.id = "pdf-viewer";
+        pdfViewer.classList.add("pdf-viewer");
 
-  menu.appendChild(switchToPdf);
+        WebViewer(
+          {
+            licenseKey: "QFn6U78TMfzwzFamsiBl",
+            path: "./pdf-viewer", // point to where the files you copied are served from
+            initialDoc: `./pdfs/${level.toUpperCase()}-${subject}/${year}/${session == "s"
+              ? "May-Jun"
+              : session == "w"
+                ? "Oct-Nov"
+                : "Feb-Mar"
+              }/${subjectCode[level.toUpperCase() + subject]}_${session}${Number(year) - 2000
+              }_qp_${subject == "Economics"
+                ? 1
+                : level == "al" || level == "cr"
+                  ? 1
+                  : 2
+              }${Number(variant) + 1}.pdf`, // path to your document
+          },
+          pdfViewer
+        ).then((instance) => {
+          instance.UI.setTheme("dark");
+          instance.UI.disableElements([
+            "toolbarGroup-FillAndSign",
+            "themeChangeButton",
+            "languageButton",
+            "toggleNotesButton",
+            "stickyToolGroupButton",
+            "toolbarGroup-Insert",
+            "stickyToolButton",
+            "polygonCloudToolGroupButton",
+            "printButton",
+          ]);
+          instance.enableFeatures([instance.Feature.Download]);
+          instance.UI.disableTools(["calloutTool"]);
+          pdfViewOpened = true;
+
+          instance.addEventListener("keyup", (e) => {
+            shortcutsFunc(e);
+          });
+
+          //console.clear()
+        });
+
+        pdfViewerContainer.appendChild(pdfViewer);
+      } else {
+        createModal(
+          "You are currently offline", // title
+          [
+            "Unable to load the pdfs while in offline.",
+            "Check you internet connectivity and try again.",
+          ], // content,
+          ["Close", () => { }]
+        );
+      }
+    } else {
+      const pdfViewer = document.getElementById("pdf-viewer");
+      pdfViewer.classList.toggle("hide-viewer");
+    }
+  }
+
+  pdfViewerContainer.appendChild(switchToPdf);
+
+  globalPdfViewer = pdfViewerContainer;
+  document.body.appendChild(pdfViewerContainer);
 
   const iButton = document.createElement("div");
   iButton.classList.add("i-button");
@@ -2320,7 +2084,7 @@ function createBubbleSheetMenu(
         `<span class="red">Red</span> → Incorrect Answer`,
         `<span class="purple">Purple</span> → Discounted Answer <button id="i-button-discounted"><svg class="discounted-question-info" id="discounted-question-info" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 5 15"><circle cx="2" cy="2" r="2"/><path d="M5,13.51c0,.65-.42,1.21-1.01,1.4-.15,.06-.31,.09-.48,.09h-.01c-1.37,0-2.49-1.11-2.49-2.49v-4.11C.42,8.21,0,7.65,0,6.99s.42-1.21,1.01-1.4c.15-.06,.31-.09,.48-.09h.01c1.37,0,2.49,1.11,2.49,2.49v4.11c.59,.19,1.01,.75,1.01,1.41Z"/></svg></button>`,
       ], // content
-      ["Close", () => {}],
+      ["Close", () => { }]
     );
 
     const iButtonDiscounted = document.getElementById("i-button-discounted");
@@ -2331,11 +2095,71 @@ function createBubbleSheetMenu(
       createModal(
         "Discounted Questions",
         ["These are disqualified question from the mark scheme."],
-        ["Close", () => {}],
+        ["Close", () => { }]
       );
     });
   });
   menu.appendChild(iButton);
+
+  const periodicTablePdfViewContainer = document.createElement("div");
+  if (subject == "Chemistry" || subject == "Combined") {
+    periodicTablePdfViewContainer.classList.add(
+      "periodic-table-pdf-viewer-container"
+    );
+    const switchToPdf = document.createElement("div");
+    switchToPdf.classList.add("switch-to-periodic-table-pdf");
+    switchToPdf.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 25.52 22.13"><path d="M21.58,22.13H3.94c-.55,0-1-.45-1-1v-2.87c0-.55,.45-1,1-1H21.58c.55,0,1,.45,1,1v2.87c0,.55-.45,1-1,1Zm-16.64-2h15.64v-.87H4.94v.87Z"/><path d="M24.52,16.83H1c-.55,0-1-.45-1-1V1C0,.45,.45,0,1,0H3.94c.55,0,1,.45,1,1v1.94h1.94c.55,0,1,.45,1,1v1.94h3.88v-1.94c0-.55,.45-1,1-1h7.82V1c0-.55,.45-1,1-1h2.94c.55,0,1,.45,1,1V15.83c0,.55-.45,1-1,1ZM2,14.83H23.52V2h-.94v1.94c0,.55-.45,1-1,1h-7.82v1.94c0,.55-.45,1-1,1H6.88c-.55,0-1-.45-1-1v-1.94h-1.94c-.55,0-1-.45-1-1v-1.94h-.94V14.83Z"/></svg>`;
+    switchToPdf.addEventListener("click", openPeriodicTable);
+
+    periodicTablePdfViewContainer.appendChild(switchToPdf);
+
+    globalPeriodicTablePdfViewer = periodicTablePdfViewContainer;
+    document.body.appendChild(periodicTablePdfViewContainer);
+  }
+
+  function openPeriodicTable() {
+    if (!periodicTablePdfViewOpened) {
+      if (navigator.onLine) {
+        const pdfViewer = document.createElement("div");
+        pdfViewer.id = "periodic-table-pdf-viewer";
+        pdfViewer.classList.add("periodic-table-pdf-viewer");
+
+        WebViewer(
+          {
+            licenseKey: "QFn6U78TMfzwzFamsiBl",
+            path: "./pdf-viewer", // point to where the files you copied are served from
+            initialDoc: `./pdfs/periodic-table.pdf`, // path to your document
+          },
+          pdfViewer
+        ).then((instance) => {
+          instance.UI.setTheme("dark");
+          instance.enableFeatures([instance.Feature.Download]);
+          instance.UI.disableTools(["calloutTool"]);
+          periodicTablePdfViewOpened = true;
+
+          instance.addEventListener("keyup", (e) => {
+            shortcutsFunc(e);
+          });
+
+          //console.clear()
+        });
+
+        periodicTablePdfViewContainer.appendChild(pdfViewer);
+      } else {
+        createModal(
+          "You are currently offline", // title
+          [
+            "Unable to load the pdfs while in offline.",
+            "Check you internet connectivity and try again.",
+          ], // content,
+          ["Close", () => { }]
+        );
+      }
+    } else {
+      const pdfViewer = document.getElementById("periodic-table-pdf-viewer");
+      pdfViewer.classList.toggle("hide-viewer");
+    }
+  }
 
   function recalculatePastExam(userAnswers) {
     let correctAnswers = 0;
@@ -2350,7 +2174,16 @@ function createBubbleSheetMenu(
 
   function resetBubbleSheet(useLocalAnswers) {
     main.innerHTML = "";
-    globalPDFSystem.destroy();
+    if (globalPdfViewer != undefined) {
+      globalPdfViewer.parentNode.removeChild(globalPdfViewer);
+      globalPdfViewer = undefined;
+    }
+    if (globalPeriodicTablePdfViewer != undefined) {
+      globalPeriodicTablePdfViewer.parentNode.removeChild(
+        globalPeriodicTablePdfViewer
+      );
+      globalPeriodicTablePdfViewer = undefined;
+    }
     if (globalTimer != undefined) {
       globalTimer.parentNode.removeChild(globalTimer);
       globalTimer = undefined;
@@ -2366,8 +2199,8 @@ function createBubbleSheetMenu(
         year,
         session,
         variant,
-        useLocalAnswers,
-      ),
+        useLocalAnswers
+      )
     );
   }
 
@@ -2376,23 +2209,13 @@ function createBubbleSheetMenu(
     for (let i = 0; i < modelAnswers.length; i++) {
       const Question = document.getElementById(`question-${i}-number`);
       const correctedQuestion = document.getElementById(
-        `question-${i}-${modelAnswers[i].toLowerCase()}`,
+        `question-${i}-${modelAnswers[i].toLowerCase()}`
       );
+
 
       Question.classList.remove("wrong-question");
       Question.classList.remove("correct-question");
       Question.classList.remove("discounted-question");
-
-      const opts = ["a", "b", "c", "d"];
-      opts.forEach((o) => {
-        const el = document.getElementById(`question-${i}-${o}`);
-        if (el) {
-          el.classList.remove(
-            "corrected-question",
-            "corrected-discounted-question",
-          );
-        }
-      });
 
       if (modelAnswers[i] == "Q") {
         correctAnswers++;
@@ -2411,8 +2234,6 @@ function createBubbleSheetMenu(
     mark.textContent = `${correctAnswers} / ${modelAnswers.length}`;
     if (correctAnswers == modelAnswers.length) {
       mark.classList.add("ACE");
-    } else {
-      mark.classList.remove("ACE");
     }
   }
 
@@ -2420,7 +2241,7 @@ function createBubbleSheetMenu(
     for (let i = 0; i < modelAnswers.length; i++) {
       if (modelAnswers[i].toLowerCase() != "q") {
         const correctedQuestion = document.getElementById(
-          `question-${i}-${modelAnswers[i].toLowerCase()}`,
+          `question-${i}-${modelAnswers[i].toLowerCase()}`
         );
         correctedQuestion.classList.add("corrected-question");
       } else {
@@ -2447,10 +2268,10 @@ function addGlobalEventListener(type, selector, callback, options) {
     (e) => {
       if (e.target.matches(selector)) callback(e);
     },
-    options,
+    options
   );
 }
 
 // appending home to main
 const main = document.getElementById("main");
-changePath("home");
+changePath('home')

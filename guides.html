@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            background-color: #0D1117;
+            color: #E6EDF3;
+            font-family: 'Mona Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            text-align: start;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: start;
+            justify-content: space-evenly;
+            flex-direction: column;
+        }
+
+        section {
+            width: 85%;
+            margin: auto;
+        }
+
+        h1 {
+            font-size: xx-large;
+            text-align: center;
+        }
+
+        h2 {
+            color: hsl(208, 59%, 60%);
+        }
+
+        h3 {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        h4 {
+            font-weight: 500;
+            margin: 1rem;
+            text-align: center;
+        }
+
+        span {
+            font-weight: 800;
+            color: hsl(208, 59%, 43%);
+            margin-right: 5px;
+        }
+
+        ol {
+            margin: 0;
+            list-style-type: none;
+        }
+
+        ol>p {
+            font-weight: 500;
+        }
+
+        a {
+            color: hsl(208, 37%, 58%);
+            text-decoration: underline 1.5pt;
+        }
+
+        .img-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: calc(100% - 2rem);
+            padding: 0.5rem 1rem;
+        }
+
+        .img-container>div {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            margin: 0.2rem;
+            flex: 1;
+        }
+
+        img {
+            object-fit: cover;
+            max-width: 80lvw;
+            max-height: 30rem;
+        }
+
+        .title {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        svg {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translate(0, -50%);
+            padding: 0.3rem;
+            border-radius: 100%;
+            cursor: pointer;
+            transition: background-color 100ms ease;
+            background-color: transparent;
+        }
+
+        svg:hover {
+            background-color: #363B42;
+        }
+    </style>
+    <title>MCQ Mate Guide</title>
+</head>
+
+<body>
+    <section>
+        <div class="title">
+            <svg onclick="location.href=`/mcq-mate/`" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                viewBox="0 0 256 256">
+                <path fill="currentColor"
+                    d="m222.14 105.85l-80-80a20 20 0 0 0-28.28 0l-80 80A19.86 19.86 0 0 0 28 120v96a12 12 0 0 0 12 12h64a12 12 0 0 0 12-12v-52h24v52a12 12 0 0 0 12 12h64a12 12 0 0 0 12-12v-96a19.86 19.86 0 0 0-5.86-14.15M204 204h-40v-52a12 12 0 0 0-12-12h-48a12 12 0 0 0-12 12v52H52v-82.35l76-76l76 76Z">
+                </path>
+            </svg>
+            <h1>MCQ Mate Guides</h1>
+        </div>
+        <h3>Guides:</h3>
+        <p>
+            <span>1-</span><a href="#downloading" style="font-weight: 500;">Downloading Web Application</a><br>
+            <span>2-</span><a href="#import-export">Importing / Exporting</a><br>
+        </p>
+        <h2 id="downloading">Downloading Web Application</h2>
+        <p>Here are the steps required to install the web application on your device<br>
+            This will allow the site to be opened offline as an application with the only missing feature is the
+            question
+            paper pdfs / periodic table pdf, otherwise the website is fully functional in offline mode</p>
+        <h3>Platforms:</h3>
+        <p>
+            <span>1-</span><a href="#windows" style="font-weight: 500;">Windows</a><br>
+            <span>2-</span><a href="#ios" style="font-weight: 500;">iOS</a><br>
+            <span>3-</span><a href="#android" style="font-weight: 500;">Android</a><br>
+        </p>
+        <h3 id="windows">Windows</h3>
+        <div class="img-container">
+            <div>
+                <img src="./media/guides/win1.webp" alt="first step in installing on windows">
+                <h4><span>1-</span>Click on download icon at top right</h4>
+            </div>
+            <div>
+                <img src="./media/guides/win2.webp" alt="second step in installing on windows">
+                <h4><span>2-</span>Confirm install in alert</h4>
+            </div>
+        </div>
+        <h3 id="ios">iOS</h3>
+        <div class="img-container">
+            <div>
+                <img src="./media/guides/ios1.webp" alt="first step in installing on ios">
+                <h4><span>1-</span>Click on share icon</h4>
+            </div>
+            <div>
+                <img src="./media/guides/ios2.webp" alt="second step in installing on ios">
+                <h4><span>2-</span>Select add to Home Screen option from the bottom</h4>
+            </div>
+            <div>
+                <img src="./media/guides/ios3.webp" alt="third step in installing on ios">
+                <h4><span>3-</span>Confirm add button in menu</h4>
+            </div>
+            <div>
+                <img src="./media/guides/ios4.webp" alt="fourth step in installing on ios">
+                <h4><span>4-</span>Application added to Home Screen</h4>
+            </div>
+        </div>
+        <h3 id="android">Android</h3>
+        <div class="img-container">
+            <div>
+                <img src="./media/guides/and1.webp" alt="first step in installing on android">
+                <h4><span>1-</span>Click on download icon at top right</h4>
+            </div>
+            <div>
+                <img src="./media/guides/and2.webp" alt="second step in installing on android">
+                <h4><span>2-</span>Select install app option from dropdown menu</h4>
+            </div>
+            <div>
+                <img src="./media/guides/and3.webp" alt="third step in installing on android">
+                <h4><span>3-</span>Confirm install in alert</h4>
+            </div>
+            <div>
+                <img src="./media/guides/and4.webp" alt="fourth step in installing on android">
+                <h4><span>4-</span>Confirm add button in widget menu</h4>
+            </div>
+            <div>
+                <img src="./media/guides/and5.webp" alt="fifth step in installing on android">
+                <h4><span>5-</span>Application added to Home Screen</h4>
+            </div>
+        </div>
+        <h2 id="import-export">Importing / Exporting</h2>
+        <p>These are the steps for transferring your data from either a backup or from another device
+            instead of your current data
+        </p>
+        <p>
+            <span>1-</span>Click the "Data" tab from the navigation or the menu at the top right on your device<br>
+            <span>2-</span>Click "Export" button to save a ".json" file on your device that has all data related to your
+            saved progress in exams<br>
+            <span>3-</span>Transfer the file to your desired device<br>
+            <span>4-</span>Re-open the "Data" tab and choose "Import"<br>
+            <span>5-</span>Choose the ".json" file you have and confirm import<br>
+        </p>
+        <p><span>This will overwrite all your current data and cant be reversed</span></p>
+    </section>
+</body>
+
+</html>

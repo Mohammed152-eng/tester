@@ -152,23 +152,6 @@
                 "ADCACDADDBCCABCDBBAABCBACCAABDACBBBBCBBC",
                 "BCAABDACBBABCCCDCBACBBBDDBDCDCBAAAADBBCD"
             ]
-        },
-        "2025": {
-            "m": [
-                "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-                "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-                "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-            ],
-            "s": [
-                "CBDCBDCADABCBAAABDBBBDDAADCCCBADABCADBCC",
-                "CABDCADCDBACABABCBDDADCCDADCBADBCBDACCDD",
-                "ABBDABBBBDADDACBDCBDCCABDDBCBAADDCCACACA"
-            ],
-            "w": [
-                "DBBBCDACAACAACACBCBBDDBDDACDCDDCBBCCACDB",
-                "ABCCACDDBDDCBDAADBCCABCABCDBABCDBDDABABA",
-                "ACDADBBBCDABCAACACAACDDCACBBDDCDABBBDDCA"
-            ]
         }
     },
     "Biology": {
@@ -323,23 +306,6 @@
                 "CCBAADCCDDCACBCCCADBBACDBCBDCDCCAAABCADA",
                 "ABDCBDACBCCBCDCABBCCCDABCDCCCDBBBDDDCDCC",
                 "CDACABAAAACBCAABAACCBDDDDCCBCCCAABBBBADC"
-            ]
-        },
-        "2025": {
-            "m": [
-                null,
-                "CADCBAACBAADDBBCDACDBDCDBDBDCADBACBABBCB",
-                null
-            ],
-            "s": [
-                "CBDADCDBDBCCBCADCABBCBCCBBABCBCCDBBCAADA",
-                "CBDBCAACACBBBBDDDDCBCBCCDADDABBBCACCCDDD",
-                "BACCBCDBBDBBBABCCCAAAADBACBDAACCBCBDDDDC"
-            ],
-            "w": [
-                "CCACDDAACBABADCAACCDBBAABDCBDADDCADDCBBC",
-                "ABAADCBADDCACBDABDCDBBAADDCDDDACDBCAABAC",
-                "CBBCAACBBBADBDDDADDABABBCBDDDBBDCACDDAAB"
             ]
         }
     },
@@ -496,23 +462,6 @@
                 "BCBCCCDCCBCADBADBDDBDACADACBCDCDABACADBB",
                 "CDBDBCBDACDCCADCADBAADACCBADBCDABADADCBA"
             ]
-        },
-        "2025": {
-            "m": [
-                null,
-                "ACCBBACDACBCACCCBBADDADCBAACADDCADDBDCBB",
-                null
-            ],
-            "s": [
-                "ADDBCBCDACBACDDBBDABCCADABACCABABCCDBDCD",
-                "CDABABDDACACAABDCBACCDDBCABDCBBDCCCBBADB",
-                "CBCBCABBCDABDBBDADCDACDDAACACBCBCABDADAD"
-            ],
-            "w": [
-                "DCCBBAABBDCCDBACACCDCABBABDCCBBCBCABDDDA",
-                "DBCACBABCDBDCAAABCCBCDABCAACBDDAACDBDBBD",
-                "CADCDCADDCACAABCBAABABCCDADBBADBCBCDCDBD"
-            ]
         }
     },
     "Combined": {
@@ -650,23 +599,6 @@
                 "ABDACADCDDBCBDBCCBBABADAACDABBADCCBADBCD",
                 "BABCDCBACDDCABCDBCADCABDACDABBDBDAACDCBC",
                 "DBCBACCBDAABCCBDABDDCCAACBBDDCDCCDADBBAA"
-            ]
-        },
-        "2025": {
-            "m": [
-                "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-                "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-                "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-            ],
-            "s": [
-                "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-                "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-                "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-            ],
-            "w": [
-                "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-                "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-                "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
             ]
         }
     },
@@ -924,23 +856,6 @@
                 "BDBDDCCDCBDACDBBDACBDDCCCAABCA",
                 "DDCBBCCABADCBBCBBBDBCCCBDAAACC",
                 "BACDBACBCACBBBCDCBDCBCDDBBCBBA"
-            ]
-        },
-        "2025": {
-            "m": [
-                null,
-                "DCAACBDDBBCDBBCCABBBCDDDBBBAACXXXXXXXXXX",
-                null
-            ],
-            "s": [
-                "BACBDDDABXBCABAACBBDCBBAABDDBCXXXXXXXXXX",
-                "BBABCCDCBBCDBADCADBDDCBCDABCBBXXXXXXXXXX",
-                "ADCACAABCDDADCCBABBACCCDBBBBCAXXXXXXXXXX"
-            ],
-            "w": [
-                "CCABAAABCDDABADBBBACBAABDAACBCXXXXXXXXXX",
-                "DACCCBDDDBABCDDADCCCBCBDCACCBAXXXXXXXXXX",
-                "DBDADCADCCDBABDBABBCCCCDBBDCCBXXXXXXXXXX"
             ]
         }
     }
