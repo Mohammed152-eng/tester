@@ -1,0 +1,159 @@
+.modal-container {
+    position: fixed;
+    z-index: 10000;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal {
+    position: relative;
+    z-index: 100;
+    padding: 2rem;
+    background-color: #E6EDF3;
+    color: #0D1117;
+    border-radius: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
+    animation: zoomIn forwards 250ms ease-out;
+}
+
+@media only screen and (max-width: 425px) {
+    .modal {
+        padding: 1rem;
+    }
+
+    .modal h2 {
+        font-size: 1.4em;
+    }
+}
+
+.modal h1,
+.modal h2 {
+    text-align: center;
+    color: #0D1117;
+}
+
+.modal>div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.modal>.modal-buttons-container {
+    justify-content: center;
+    gap: 1rem;
+}
+
+.modal>.modal-buttons-container>button {
+    cursor: pointer;
+
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: none;
+    background-color: #0D1117;
+
+    font-size: large;
+    font-weight: bold;
+
+    outline: none;
+    transition: background-color 100ms ease;
+}
+
+@media (pointer: fine) {
+    .modal>.modal-buttons-container>button:hover {
+        background-color: #21262D;
+    }
+}
+
+.modal input[type="checkbox"] {
+    height: 2rem;
+    width: 2rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: solid 3pt #0D1117;
+
+    font-size: large;
+
+    outline: none;
+}
+
+.modal>button {
+    cursor: pointer;
+}
+
+.backdrop {
+    position: absolute;
+    z-index: 95;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+
+    animation: fadeId 250ms forwards;
+}
+
+@keyframes fadeId {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+@keyframes zoomOut {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(0);
+    }
+}
+
+@media screen and (max-width: 475px) {
+
+    .modal>div {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+}
