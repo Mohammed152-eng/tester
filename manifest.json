@@ -1,0 +1,149 @@
+{
+    "name": "MCQ Mate",
+    "short_name": "MCQ Mate",
+    "theme_color": "#0D1117",
+    "background_color": "#0D1117",
+    "Scope": "/",
+    "start_url": "/mcq-mate/",
+    "display": "standalone",
+    "display_override": [
+        "fullscreen",
+        "minimal-ui"
+    ],
+    "icons": [
+        {
+            "src": "media/icon/favicon-x16.ico",
+            "sizes": "16x16",
+            "type": "image/x-icon"
+        },
+        {
+            "src": "media/icon/favicon-x24.ico",
+            "sizes": "24x24",
+            "type": "image/x-icon"
+        },
+        {
+            "src": "media/icon/favicon-x32.ico",
+            "sizes": "32x32",
+            "type": "image/x-icon"
+        },
+        {
+            "src": "media/icon/favicon-x48.ico",
+            "sizes": "48x48",
+            "type": "image/x-icon"
+        },
+        {
+            "src": "media/icon/favicon-x64.ico",
+            "sizes": "64x64",
+            "type": "image/x-icon"
+        },
+        {
+            "src": "media/icon/icon-x16.png",
+            "sizes": "16x16",
+            "type": "image/png"
+        },
+        {
+            "src": "media/icon/icon-x24.png",
+            "sizes": "24x24",
+            "type": "image/png"
+        },
+        {
+            "src": "media/icon/icon-x32.png",
+            "sizes": "32x32",
+            "type": "image/png"
+        },
+        {
+            "src": "media/icon/icon-x48.png",
+            "sizes": "48x48",
+            "type": "image/png"
+        },
+        {
+            "src": "media/icon/icon-x72.png",
+            "sizes": "72x72",
+            "type": "image/png"
+        },
+        {
+            "src": "media/icon/icon-x96.png",
+            "sizes": "96x96",
+            "type": "image/png"
+        },
+        {
+            "src": "media/icon/icon-x128.png",
+            "sizes": "128x128",
+            "type": "image/png"
+        },
+        {
+            "src": "media/icon/icon-x144.png",
+            "sizes": "144x144",
+            "type": "image/png"
+        },
+        {
+            "src": "media/icon/icon-x152.png",
+            "sizes": "152x152",
+            "type": "image/png"
+        },
+        {
+            "src": "media/icon/icon-x180.png",
+            "sizes": "180x180",
+            "type": "image/png"
+        },
+        {
+            "src": "media/icon/icon-x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "media/icon/icon-x384.png",
+            "sizes": "384x384",
+            "type": "image/png"
+        },
+        {
+            "src": "media/icon/icon-x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "media/screenshots/screenshot1.webp",
+            "sizes": "1280x1024",
+            "type": "image/webp",
+            "form_factor": "wide",
+            "label": "MCQ Mate HomePage"
+        },
+        {
+            "src": "media/screenshots/screenshot2.webp",
+            "sizes": "1280x1024",
+            "type": "image/webp",
+            "form_factor": "wide",
+            "label": "MCQ Mate Solving Menu"
+        },
+        {
+            "src": "media/screenshots/screenshot3.webp",
+            "sizes": "1280x1024",
+            "type": "image/webp",
+            "form_factor": "wide",
+            "label": "MCQ Mate PdfViewer"
+        },
+        {
+            "src": "media/screenshots/screenshot-mobile1.webp",
+            "form_factor": "narrow",
+            "sizes": "1179x2556",
+            "type": "image/webp",
+            "label": "MCQ Mate HomePage"
+        },
+        {
+            "src": "media/screenshots/screenshot-mobile2.webp",
+            "form_factor": "narrow",
+            "sizes": "1179x2556",
+            "type": "image/webp",
+            "label": "MCQ Mate Solving Menu"
+        },
+        {
+            "src": "media/screenshots/screenshot-mobile3.webp",
+            "form_factor": "narrow",
+            "sizes": "1179x2556",
+            "type": "image/webp",
+            "label": "MCQ Mate PdfViewer"
+        }
+    ]
+}
